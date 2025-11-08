@@ -1,101 +1,31 @@
-pipeline {
-    agent any
-    tools
-    {
-      maven "maven-3.9.6"
-    }
-     stages
+node
+{
+      // /var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven-3.9.6/bin
+      def mavenHome =tool name:  "maven-3.9.6"
+       stage('git checkout')
      {
-        stage('git checkout')
-        {
-          steps
-          {
-           //testing
-             git branch: 'development', url: 'https://github.com/kkdevopsb6/maven-webapplication-project-kkfunda.git'
-          }
-        } //stage  close
-        stage('build')
-        {
-        steps
-        {
-           sh "mvn clean package"
-        }
-        }  //stage close
-        stage('SQ Report')
-        {
-           steps
-           {
-           sh "mvn sonar:sonar"
-           }
-        } //stage ending
-        stage('Uploadinto Nexus')
-        {
-           steps
-           {
-              sh "mvn deploy"
-           }
-        }  //stage ending
-
-        stage('tomcat deploy')
-        {
-        steps {
-                sh """
-            curl -u kk:password \
-            --upload-file /var/lib/jenkins/workspace/DLPL/target/maven-web-application.war \
-            "http://65.2.35.68:8080/manager/text/deploy?path=/maven-web-application&update=true"
-        """
-            }
-        }  //stage ending
-
-     }  // stages closing
-
-
-
-post {
-  success {
-
-    script
+           git branch: 'development', credentialsId: '95fa1633-e702-4925-b440-3aaf8e47c3ac', url:          'https://github.com/VennelaSunkara-DevOps/maven-webapplication-project-kkfunda.git'
+     }
+     stage('Maven Build')
+     {
+           sh "${mavenHome}/bin/mvn clean package"
+     }
+      stage('SQ Report')
+     {
+              sh "${mavenHome}/bin/mvn sonar:sonar"
+     }
+     stage('Deploy into Nexus')
+     {
+              sh "${mavenHome}/bin/mvn deploy"
+     }
+     stage('Deploy to Tomcat') 
     {
-     notifyBuild(currentBuild.result)
+      
+      sh """
+         curl -u sai:Venni@123 \
+         --upload-file /var/lib/jenkins/workspace/jio-dev-scriptedway-PL/target/maven-web-application.war \
+         "http://13.232.30.224:8080/manager/text/deploy?path=/maven-web-application&update=true"
+          
+        """
     }
-    
-  }
-  failure {
-
-  script
-  {
-    notifyBuild(currentBuild.result)
-
-  }
-   
-  }
 }
-
-
-} // pipeline ending
-
-// Notification method
-def notifyBuild(String buildStatus = 'STARTED') {
-    buildStatus = buildStatus ?: 'SUCCESS'
-
-    def colorCode
-    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-    def summary = "${subject} (${env.BUILD_URL})"
-
-    switch (buildStatus) {
-        case 'STARTED':
-            colorCode = '#FFFF00' // Yellow
-            break
-        case 'SUCCESS':
-            colorCode = '#00FF00' // Green
-            break
-        default:
-            colorCode = '#FF0000' // Red
-    }
-
-    slackSend(color: colorCode, message: summary)
-}
-
-
-
-
