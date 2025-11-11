@@ -24,7 +24,7 @@ node
       sh """
          curl -u sai:Venni@123 \
          --upload-file /var/lib/jenkins/workspace/jio-dev-scriptedway-PL/target/maven-web-application.war \
-         "http://13.232.30.224:8080/manager/text/deploy?path=/maven-web-application&update=true"
+         "http://52.66.126.66:8080/manager/text/deploy?path=/maven-web-application&update=true"
           
         """
     }
