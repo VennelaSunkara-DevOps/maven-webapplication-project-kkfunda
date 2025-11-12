@@ -10,7 +10,6 @@ node
 	def mavenHome =tool name:  "maven-3.9.6"
 	try
 	{
-	  def mavenHome =tool name:  "maven-3.9.6"
        stage('git checkout')
      {
            git branch: 'development', credentialsId: '95fa1633-e702-4925-b440-3aaf8e47c3ac', url:          'https://github.com/VennelaSunkara-DevOps/maven-webapplication-project-kkfunda.git'
