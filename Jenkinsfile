@@ -1,8 +1,5 @@
 node
 {
-      // /var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven-3.9.6/bin
-    node
-{
 	echo "git branch name: ${env.BRANCH_NAME}"
 	echo "build number is: ${env.BUILD_NUMBER}"
 	echo "node name is: ${env.NODE-NAME}"
