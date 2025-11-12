@@ -61,4 +61,3 @@ def notifyBuild (String buildStatus = "STARTED") {
 	slackSend (color: ColorCode, message: summary, channel: '#jio-devops')
 
 }
-}
