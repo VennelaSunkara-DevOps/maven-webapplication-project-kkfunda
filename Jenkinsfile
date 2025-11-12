@@ -43,7 +43,7 @@ node
 	  notifyBuild(currentBuild.result)
 	}
 } //node ending
-def notifyBuild(String buildStatus = "STARTED") {
+def notifyBuild (String buildStatus = "STARTED") {
 		buildStatus = buildStatus ?: 'SUCCESS'
 		def colorName = 'RED'
 		def colorCode = '#FF0000'
