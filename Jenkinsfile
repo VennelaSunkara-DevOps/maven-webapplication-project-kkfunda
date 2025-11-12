@@ -44,16 +44,16 @@ node
 	}
 } //node ending
 def notifyBuild(String buildStatus = "STARTED") {
-	buildStatus = buildStatus ?: 'SUCCESS'
-	def colorName = 'RED'
-	def colorCode = '#FF0000'
-	def subject = "${buildStatus}: job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-	def summary = "${subject} (${env.BUILD_URL})"
+		buildStatus = buildStatus ?: 'SUCCESS'
+		def colorName = 'RED'
+		def colorCode = '#FF0000'
+		def subject = "${buildStatus}: job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+		def summary = "${subject} (${env.BUILD_URL})"
 
 	if (buildStatus == 'STARTED') {
 		color = 'YELLOW'
 		colorCode = '#FFFF00'
-	}else if (buildStatus == 'SUCCESS') {
+	} else if (buildStatus == 'SUCCESS') {
 		color = 'GREEN'
 		colorCode = '#00FF00'
 	} else {
